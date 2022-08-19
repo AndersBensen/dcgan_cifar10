@@ -1,4 +1,3 @@
-from tkinter import E
 import torch 
 from torch import nn
 from torchvision.utils import save_image
@@ -22,10 +21,10 @@ def weights_init(model):
 
 # Train the discriminator, maximizing the probability of classifying output to be
 # fake or rael. 
-def train_discriminator(discriminator, optimizer, criterion, real_data, fake_data):
+def train_discriminator(discriminator, optimizer, criterion, real_data, fake_data, device):
     batch_size = real_data.shape[0]
-    real_label = torch.ones(batch_size).to(get_device())
-    fake_label = torch.zeros(batch_size).to(get_device())
+    real_label = torch.ones(batch_size).to(device)
+    fake_label = torch.zeros(batch_size).to(device)
 
     optimizer.zero_grad()
 
@@ -45,9 +44,9 @@ def train_discriminator(discriminator, optimizer, criterion, real_data, fake_dat
 
 
 # Train the generator, by improving its ability to generate data. 
-def train_generator(discriminator, optimizer, criterion, fake_data):
+def train_generator(discriminator, optimizer, criterion, fake_data, device):
     batch_size = fake_data.shape[0]
-    real_label = torch.ones(batch_size).to(get_device())
+    real_label = torch.ones(batch_size).to(device)
 
     optimizer.zero_grad()
 
@@ -89,10 +88,10 @@ def train(generator, discriminator, optimizer_g, optimizer_d, epochs, criterion,
             fake_data = generator(noise)
             real_data = image
 
-            loss_discriminator = train_discriminator(discriminator, optimizer_d, criterion, real_data, fake_data.detach()).item()
+            loss_discriminator = train_discriminator(discriminator, optimizer_d, criterion, real_data, fake_data.detach(), device).item()
             run_loss_d += loss_discriminator
 
-            loss_generator = train_generator(discriminator, optimizer_g, criterion, fake_data).item()
+            loss_generator = train_generator(discriminator, optimizer_g, criterion, fake_data, device).item()
             run_loss_g += loss_generator
             
             if (i % 25 == 0):
