@@ -59,7 +59,7 @@ def train_generator(discriminator, optimizer, criterion, fake_data, device):
 
     return loss
 
-def train(generator, discriminator, optimizer_g, optimizer_d, epochs, criterion, dataloader, batch_size, input_dim):
+def train(generator, discriminator, optimizer_g, optimizer_d, epochs, criterion, dataloader, batch_size, latent_dim):
     device = get_device()
 
     generator.to(device)
@@ -72,7 +72,7 @@ def train(generator, discriminator, optimizer_g, optimizer_d, epochs, criterion,
     generator_loss = []
 
     # Save some initial noise to see the images after each epoch
-    initial_noise = torch.randn(batch_size, input_dim, 1, 1, device=device)
+    initial_noise = torch.randn(batch_size, latent_dim, 1, 1, device=device)
     print("### Beginning training ###")
 
     # For each epoch
@@ -84,7 +84,7 @@ def train(generator, discriminator, optimizer_g, optimizer_d, epochs, criterion,
         for i, image in enumerate(dataloader, 0):
             image = image[0].to(device)
 
-            noise = torch.randn(batch_size, input_dim, 1, 1, device=device)
+            noise = torch.randn(batch_size, latent_dim, 1, 1, device=device)
             fake_data = generator(noise)
             real_data = image
 

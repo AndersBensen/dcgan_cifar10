@@ -6,8 +6,8 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 
 if __name__ == "__main__":
-    input_dim = 100
-    generator = Generator(input_dim)
+    latent_dim = 100
+    generator = Generator(latent_dim)
     discriminator = Discriminator()
 
     lr = 0.0002
@@ -40,4 +40,4 @@ if __name__ == "__main__":
 
     discriminator_loss, generator_loss = training.train(
                 generator=generator, discriminator=discriminator, optimizer_d=optimizer_d, optimizer_g=optimizer_g, 
-                epochs=epochs, criterion=criterion, batch_size=batch_size, dataloader=dataloader, input_dim=input_dim)
+                epochs=epochs, criterion=criterion, batch_size=batch_size, dataloader=dataloader, latent_dim=latent_dim)

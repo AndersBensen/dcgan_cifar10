@@ -1,11 +1,11 @@
 import torch.nn as nn
 
 class Generator(nn.Module):
-    def __init__(self, nz):
+    def __init__(self, latent_dim):
         super(Generator, self).__init__()
         self.main = nn.Sequential(
             nn.ConvTranspose2d(
-                in_channels=nz, out_channels=512, kernel_size=4, 
+                in_channels=latent_dim, out_channels=512, kernel_size=4, 
                 stride=1, padding=0, bias=False),
             nn.BatchNorm2d(512),
             nn.ReLU(True),
